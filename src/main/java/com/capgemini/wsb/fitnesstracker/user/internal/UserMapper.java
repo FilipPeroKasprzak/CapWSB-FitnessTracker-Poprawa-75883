@@ -22,4 +22,7 @@ class UserMapper {
                         userDto.email());
     }
 
+    static UserA aToDto(User user){
+        return new UserA(user.getId(), user.getFirstName(), user.getLastName());
+    }
 }
