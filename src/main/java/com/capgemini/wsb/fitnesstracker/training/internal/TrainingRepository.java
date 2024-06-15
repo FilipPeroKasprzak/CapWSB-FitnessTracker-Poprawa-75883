@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
 
-        Optional<Training> findAllByUserId(Long userId);
+        List<Training> findAllByUserId(Long userId);
         List<Training> findAllByEndTimeAfter(LocalDateTime afterTime);
         List<Training> findAllByActivityType(ActivityType activityType);
-        List<Training> inMemoryTrainingRepository();
+
 }
