@@ -1,10 +1,12 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
 
 
+@ComponentScan
 @Component
 public class TrainingMapper {
 
