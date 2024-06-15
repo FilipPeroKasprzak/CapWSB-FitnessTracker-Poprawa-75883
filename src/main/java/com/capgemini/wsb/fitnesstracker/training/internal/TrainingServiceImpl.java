@@ -4,6 +4,7 @@ import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingNotFoundException;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingRequest;
+import com.capgemini.wsb.fitnesstracker.training.internal.TrainingMapper;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserRepository;
@@ -27,12 +28,16 @@ public class TrainingServiceImpl implements TrainingProvider {
     private final TrainingRepository trainingRepository;
 
     @Autowired
+    private final TrainingMapper trainingMapper;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    public TrainingServiceImpl(TrainingRepository trainingRepository, UserRepository userRepository) {
+    public TrainingServiceImpl(TrainingRepository trainingRepository, UserRepository userRepository, TrainingMapper trainingMapper) {
         this.trainingRepository = trainingRepository;
         this.userRepository = userRepository;
+        this.trainingMapper = trainingMapper;
     }
 
     @Override
@@ -77,11 +82,7 @@ public class TrainingServiceImpl implements TrainingProvider {
         Optional<Training> existingTrainingOpt = trainingRepository.findById(trainingId);
         if (existingTrainingOpt.isPresent()) {
             Training existingTraining = existingTrainingOpt.get();
-            existingTraining.setStartTime(updatedTraining.getStartTime());
-            existingTraining.setEndTime(updatedTraining.getEndTime());
-            existingTraining.setActivityType(updatedTraining.getActivityType());
-            existingTraining.setDistance(updatedTraining.getDistance());
-            existingTraining.setAverageSpeed(updatedTraining.getAverageSpeed());
+            trainingMapper.updateTrainingFromDto(existingTraining, updatedTraining);
             return trainingRepository.save(existingTraining);
         } else {
             throw new TrainingNotFoundException(trainingId);

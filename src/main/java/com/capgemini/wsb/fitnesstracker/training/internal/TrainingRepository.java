@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
 
-        List<Training> findAllByUserId(Long userId);
+        Optional<Training> findAllByUserId(Long userId);
         List<Training> findAllByEndTimeAfter(LocalDateTime afterTime);
         List<Training> findAllByActivityType(ActivityType activityType);
+        List<Training> inMemoryTrainingRepository();
 }
